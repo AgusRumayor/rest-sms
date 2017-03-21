@@ -1,5 +1,92 @@
 ---
-- apt:
+- name: Redis 
+  apt:
     name: redis-server
     state: present
   sudo: yes
+
+- name: Python
+  apt:
+    name: python
+    state: present
+  sudo: yes
+
+- name: setuptools
+  apt:
+    name: python-setuptools
+    state: present
+  sudo: yes
+
+- name: pip
+  apt:
+    name: python-pip
+    state: present
+  sudo: yes
+
+- name: redis py
+  pip:
+    name: redis
+
+- name: API lib directory
+  file:
+    path: /usr/local/lib
+    state: directory
+
+- name: Downloading Fixerio API
+  git:
+    repo: "https://github.com/Jufik/python-fixer"
+    dest: "/usr/local/lib/fixer-py"
+    update: yes
+    force: yes
+
+- name: Installing Bitso API
+  shell: "cd /usr/local/lib/fixer-py && /usr/bin/python setup.py install"
+
+- name: Downloading Bitso API
+  git:
+    repo: "https://github.com/AgusRumayor/bitso-py"
+    dest: "/usr/local/lib/bitso-py"
+    update: yes
+    force: yes
+  
+- name: Installing Bitso API
+  shell: "cd /usr/local/lib/bitso-py && /usr/bin/python setup.py install"
+
+- name: CEX API
+  git:
+    repo: "https://github.com/AgusRumayor/cex.io-api-python"
+    dest: "/usr/local/lib/cex-py"
+    update: yes
+    force: yes
+
+- name: Installing CEX API
+  shell: "cd /usr/local/lib/cex-py && /usr/bin/python setup.py install"
+
+- name: Downloading Btce API
+  git:
+    repo: "https://github.com/CodeReclaimers/btce-api"
+    dest: "/usr/local/lib/btce-py"
+    update: yes
+    force: yes
+
+- name: Installing Btce API
+  shell: "cd /usr/local/lib/btce-py && /usr/bin/python setup.py install"
+
+- name: app directory
+  file:
+    path: /usr/local/share
+    state: directory
+
+- name: Downloading Arbitrage
+  git:
+    repo: "git@gitlab.com:AgusRumayor/arbitrage.git"
+    dest: "/usr/local/share/arbitrage"
+    update: yes
+    force: yes
+    key_file: /home/agus/gitlab
+    accept_hostkey: yes
+
+- name: Set default config
+  copy:
+    content="{{config | to_json}}"
+    dest="/usr/local/share/arbitrage/config.json"

@@ -1,0 +1,15 @@
+config:
+  bitso_key: ""
+  exchanges: ["bitso.com", "cex.io", "btce"]
+  markets: {"cex.io": ["usd/btc", "usd/eth", "btc/eth"], "bitso.com": ["mxn/btc", "mxn/eth"]}
+  cex_url: "https://cex.io/api/" 
+  usd_mxn: 19.1 
+  bitso_url: "https://api.bitso.com/v3/"
+  btce_secret: ""
+  cex_secret: ""
+  bitso_secret: ""
+  cex_key: ""
+  mxn_usd: "0.0525"
+  cex_username: ""
+  btce_key: ""
+  
