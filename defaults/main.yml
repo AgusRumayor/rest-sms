@@ -1,3 +1,5 @@
+server_user: username
+server_group: groupname
 config:
   bitso_key: ""
   exchanges: ["bitso.com", "cex.io", "btce"]
