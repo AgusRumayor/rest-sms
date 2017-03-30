@@ -26,67 +26,97 @@
 - name: redis py
   pip:
     name: redis
+  sudo: yes
 
 - name: API lib directory
   file:
-    path: /usr/local/lib
+    path: /opt/arbitrage
     state: directory
+    owner: "{{ server_user }}"
+    group: "{{ server_group }}"
+  sudo: yes
 
 - name: Downloading Fixerio API
   git:
     repo: "https://github.com/Jufik/python-fixer"
-    dest: "/usr/local/lib/fixer-py"
+    dest: "/opt/arbitrage/fixer-py"
     update: yes
     force: yes
+  sudo: yes
+  sudo_user: "{{ server_user }}"
 
-- name: Installing Bitso API
-  shell: "cd /usr/local/lib/fixer-py && /usr/bin/python setup.py install"
+- name: Installing Fixerio API
+  command: "/usr/bin/python setup.py install"
+  args:
+    chdir: "/opt/arbitrage/fixer-py"
+  sudo: yes
 
 - name: Downloading Bitso API
   git:
     repo: "https://github.com/AgusRumayor/bitso-py"
-    dest: "/usr/local/lib/bitso-py"
+    dest: "/opt/arbitrage/bitso-py"
     update: yes
     force: yes
+  sudo: yes
+  sudo_user: "{{ server_user }}"
   
 - name: Installing Bitso API
-  shell: "cd /usr/local/lib/bitso-py && /usr/bin/python setup.py install"
+  command: "/usr/bin/python setup.py install"
+  args:
+    chdir: "/opt/arbitrage/bitso-py"
+  sudo: yes
 
 - name: CEX API
   git:
     repo: "https://github.com/AgusRumayor/cex.io-api-python"
-    dest: "/usr/local/lib/cex-py"
+    dest: "/opt/arbitrage/cex-py"
     update: yes
     force: yes
+  sudo: yes
+  sudo_user: "{{ server_user }}"
 
 - name: Installing CEX API
-  shell: "cd /usr/local/lib/cex-py && /usr/bin/python setup.py install"
+  command: "/usr/bin/python setup.py install"
+  args:
+    chdir: "/opt/arbitrage/cex-py"
+  sudo: yes
 
 - name: Downloading Btce API
   git:
     repo: "https://github.com/CodeReclaimers/btce-api"
-    dest: "/usr/local/lib/btce-py"
+    dest: "/opt/arbitrage/btce-py"
     update: yes
     force: yes
+  sudo: yes
+  sudo_user: "{{ server_user }}"
 
 - name: Installing Btce API
-  shell: "cd /usr/local/lib/btce-py && /usr/bin/python setup.py install"
+  command: "/usr/bin/python setup.py install"
+  args:
+    chdir: "/opt/arbitrage/btce-py"
+  sudo: yes
 
 - name: app directory
   file:
-    path: /usr/local/share
+    path: "/home/{{ server_user }}/share"
     state: directory
+  sudo: yes
+  sudo_user: "{{ server_user }}"
 
 - name: Downloading Arbitrage
   git:
     repo: "git@gitlab.com:AgusRumayor/arbitrage.git"
-    dest: "/usr/local/share/arbitrage"
+    dest: "/home/{{ server_user }}/share/arbitrage"
     update: yes
     force: yes
-    key_file: /home/agus/gitlab
+    key_file: "/home/{{ server_user }}/.ssh/gitlab"
     accept_hostkey: yes
+  sudo: yes
+  sudo_user: "{{ server_user }}"
 
 - name: Set default config
   copy:
     content="{{config | to_json}}"
-    dest="/usr/local/share/arbitrage/config.json"
+    dest="/home/{{ server_user }}/share/arbitrage/config.json"
+  sudo: yes
+  sudo_user: "{{ server_user }}"
