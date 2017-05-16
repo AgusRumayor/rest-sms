@@ -51,19 +51,14 @@
     chdir: "/opt/arbitrage/fixer-py"
   sudo: yes
 
-- name: Downloading Bitso API
-  git:
-    repo: "https://github.com/AgusRumayor/bitso-py"
-    dest: "/opt/arbitrage/bitso-py"
-    update: yes
-    force: yes
+- name: Installing Bitso
+  pip:
+    name: bitso-py
   sudo: yes
-  sudo_user: "{{ server_user }}"
-  
-- name: Installing Bitso API
-  command: "/usr/bin/python setup.py install"
-  args:
-    chdir: "/opt/arbitrage/bitso-py"
+
+- name: Installing cex
+  pip:
+    name: cex
   sudo: yes
 
 - name: CEX API

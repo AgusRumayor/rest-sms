@@ -1,5 +1,5 @@
-server_user: username
-server_group: groupname
+server_user: agus
+server_group: agus
 config:
   bitso_key: ""
   exchanges: ["bitso.com", "cex.io", "btce"]
